@@ -1,42 +1,47 @@
+// src/main.rs
+
 mod http;
 
 use http::request::Request;
-use std::io::Write;
+use http::response::Response;
+use http::status_code::StatusCode;
+
 use std::net::{TcpListener, TcpStream};
 use std::thread;
 
 fn handle_client(mut stream: TcpStream) {
-    // Parse the request using handcrafted module
-    match Request::parse(&mut stream) {
+    let response = match Request::parse(&mut stream) {
         Some(req) => {
-            println!("Received: {:?} on {}", req.method, req.path);
-            if let Some(body) = req.body {
-                println!("Body payload: {}", body);
-            }
+            println!("Received: {:?} {}", req.method, req.path);
 
-            // Send a dummy HTTP 200 response
-            let response = "HTTP/1.1 200 OK\r\n\r\nHello from Rust!";
-            stream.write_all(response.as_bytes()).unwrap();
+            // Logic Placeholder: "If path is /test, say OK"
+            if req.path == "/test" {
+                Response::new(StatusCode::Ok, Some("You found the test page!".to_string()))
+            } else {
+                Response::new(StatusCode::NotFound, Some("Page not found".to_string()))
+            }
         }
-        None => {
-            println!("Failed to parse request");
-        }
+        None => Response::new(StatusCode::BadRequest, None),
+    };
+
+    // The response object handles the low-level writing
+    if let Err(e) = response.send(&mut stream) {
+        println!("Failed to send response: {}", e);
     }
 }
 
 fn main() {
-    let address: &str = "127.0.0.1:8080";
-    let listener = TcpListener::bind(address).unwrap();
-    println!("Listening on {}", address);
+    let listener = TcpListener::bind("127.0.0.1:8080").unwrap();
+    println!("Server running on 127.0.0.1:8080");
 
     for stream in listener.incoming() {
         match stream {
             Ok(stream) => {
-                thread::spawn(|| handle_client(stream));
+                thread::spawn(move || {
+                    handle_client(stream);
+                });
             }
-            Err(e) => {
-                eprintln!("Connection failed: {}", e);
-            }
+            Err(e) => println!("Connection failed: {}", e),
         }
     }
 }
