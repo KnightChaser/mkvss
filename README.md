@@ -61,4 +61,11 @@ Benchmarked using `oha` (Oha HTTP Load Generator) on my PC:
 - Duration: 10 sec
 - Database: SQLite in WAL mode
 
-<img width="791" height="1078" alt="image" src="https://github.com/user-attachments/assets/ffde1ce8-5d27-4735-b4d6-3104bc31dd99" />
+Result:
+- Average: 2.0562ms/sec
+- P99.00: 4.9463ms
+- P99.90: 6.0222ms
+- P99.99: 7.0840ms
+- Success rate: approx. 99.99093%
+
+<img width="821" height="1153" alt="image" src="https://github.com/user-attachments/assets/49dfeac4-1820-474e-a910-690b421abb99" />
