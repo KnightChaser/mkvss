@@ -6,6 +6,7 @@ use std::io::{BufRead, BufReader, Read};
 use std::net::TcpStream;
 use std::str::FromStr;
 
+#[allow(dead_code)]
 #[derive(Debug)]
 pub struct Request {
     pub method: Method,
