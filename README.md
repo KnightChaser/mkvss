@@ -61,8 +61,4 @@ Benchmarked using `oha` (Oha HTTP Load Generator) on my PC:
 - Duration: 10 sec
 - Database: SQLite in WAL mode
 
-| Metric         | Result      |
-|----------------|------------|
-| P99 Latency    | ~5.14 ms   |
-| P99.99 Latency | ~7.14 ms   |
-| Success Rate   | > 99.5%    |
+<img width="791" height="1078" alt="image" src="https://github.com/user-attachments/assets/ffde1ce8-5d27-4735-b4d6-3104bc31dd99" />
